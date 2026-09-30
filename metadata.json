@@ -1,0 +1,6 @@
+{
+  "name": "BlogNest – Blogging Platform with Comments",
+  "description": "Write. Share. Connect. A full-stack modern blogging platform with real MongoDB Atlas storage, JWT authentication, and interactive comments.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
