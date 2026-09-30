@@ -45,8 +45,7 @@
 
 - **Production-Ready Architecture**
   - 100% real MongoDB database storage using Mongoose schemas with references (`ObjectId`, `ref: 'User'`, `ref: 'Post'`).
-  - Embedded local MongoDB engine out-of-the-box for instant zero-config testing.
-  - Seamless toggle to **MongoDB Atlas Cloud** cluster via `MONGODB_URI`.
+  - Persistent MongoDB storage using Mongoose and MongoDB Atlas.
   - Clean separation of concerns: routes, controllers, middleware, models, services, and context.
 
 ---
@@ -76,7 +75,7 @@ blog-platform/
 │
 ├── server/                           # Backend Application
 │   ├── config/
-│   │   └── db.ts                     # MongoDB Atlas & local engine connection
+│   │   └── db.ts                     # MongoDB Atlas connection
 │   ├── controllers/
 │   │   ├── authController.ts         # User registration, login, profile
 │   │   ├── postController.ts         # Posts CRUD, search, filter
@@ -141,20 +140,12 @@ blog-platform/
 
 ## ⚙️ Environment Variables
 
-Create a `.env` file in the root directory (based on `.env.example`):
+Create a `.env` file in the root directory based on `.env.example`:
 
 ```env
-# MongoDB Atlas Connection String
-# Leave empty to use the automatic local embedded MongoDB engine, or provide your cloud cluster URI:
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/blognest?retryWrites=true&w=majority
-
-# Secret for signing JWT authentication tokens
-JWT_SECRET=super_secure_jwt_secret_key_change_in_production
-
-# Server Port
+MONGODB_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_secure_jwt_secret
 PORT=3000
-
-# Client Application URL
 CLIENT_URL=http://localhost:3000
 ```
 
@@ -199,20 +190,15 @@ The database comes pre-seeded with two active accounts for immediate testing:
 
 ## 🌐 Connecting MongoDB Atlas
 
-1. Log into your [MongoDB Atlas Console](https://cloud.mongodb.com/).
-2. Create a free cluster (**M0 Free Tier**).
-3. Under **Database Access**, create a database user (e.g. `blognest_user`) and password.
-4. Under **Network Access**, add IP `0.0.0.0/0` (Allow access from anywhere).
-5. In your cluster dashboard, click **Connect** → **Drivers** (Node.js).
-6. Copy the connection string and paste it into your `.env` file:
-   ```env
-   MONGODB_URI=mongodb+srv://blognest_user:<password>@cluster0.abcde.mongodb.net/blognest?retryWrites=true&w=majority
-   ```
-7. Restart the server (`npm run dev`). The server log will print:
-   ```
-   Connecting to MongoDB Atlas at provided URI...
-   Successfully connected to MongoDB Atlas!
-   ```
+1. Create or use a MongoDB Atlas cluster.
+2. Under Database Access, create a database user.
+3. Under Network Access, allow the IP address from which the application will connect.
+4. Click Connect → Drivers.
+5. Copy the MongoDB connection string.
+6. Add it to the `.env` file as `MONGODB_URI`.
+7. Restart the application with `npm run dev`.
+
+The application connects directly to MongoDB Atlas for persistent data storage.
 
 ---
 
@@ -248,7 +234,7 @@ The database comes pre-seeded with two active accounts for immediate testing:
 - `PUT /api/users/:id` — Update user profile details *(Requires JWT, Owner verified)*.
 
 ### System & Health (`/api/status`)
-- `GET /api/status` — Live health check returning database host type (Atlas vs local) and connection state.
+- `GET /api/status` — Live health check returning MongoDB Atlas connection status.
 
 ---
 
@@ -266,11 +252,11 @@ NODE_ENV=production npm start
 ```
 The Express server will automatically serve optimized static assets from `dist/` and handle client-side SPA routing fallbacks.
 
-### Cloud Hosting Options
-- **Backend / Full Stack**: Render, Railway, Google Cloud Run, AWS Elastic Beanstalk, Heroku.
-- **Database**: MongoDB Atlas Cloud.
+### Deployment
+
+The application can be deployed as a full-stack application on Render, with MongoDB Atlas used as the production database.
 
 ---
 
 ## 📄 License
-MIT License. Built for Full Stack Development Internship Task 4.
+MIT License.
