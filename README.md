@@ -256,6 +256,10 @@ The Express server will automatically serve optimized static assets from `dist/`
 
 The application can be deployed as a full-stack application on Render, with MongoDB Atlas used as the production database.
 
+## 🚀 Live Demo
+
+👉 [**Visit BlogNest — Live Website**](https://blognest-blogging-platform.onrender.com)
+
 ---
 
 ## 📄 License
